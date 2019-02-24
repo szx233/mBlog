@@ -1,55 +1,98 @@
 <template>
-  <div>
-    <nuxt />
-  </div>
+  <a-layout>
+    <a-layout-header class="head">
+      <div class="head_back" v-if="$route.params.id">
+        <a-icon type="left"/>
+      </div>
+      <h1 class="head_title">SZX的博客</h1>
+      <nav class="head_nav">
+        <a-input-search style="width: 200px"></a-input-search>
+        <a-menu mode="horizontal" class="menu">
+          <a-menu-item v-for="(item,index) in currentNavs" :key="index">
+            <nuxt-link :to="item.path">{{item.name}}</nuxt-link>
+          </a-menu-item>
+        </a-menu>
+      </nav>
+    </a-layout-header>
+    <a-layout-content :style="{ margin: '24px 16px 0' }">
+      <div :style="{ padding: '24px', background: '#fff', minHeight: '360px' }">
+        <nuxt></nuxt>
+      </div>
+    </a-layout-content>
+    <a-layout-footer style="textAlign: center">BLOG ©2018 Created by SZX</a-layout-footer>
+  </a-layout>
 </template>
 
-<style>
-html {
-  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    Roboto, 'Helvetica Neue', Arial, sans-serif;
-  font-size: 16px;
-  word-spacing: 1px;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  box-sizing: border-box;
+<script>
+export default {
+  data() {
+    return {
+      keyword: '',
+      navs: [
+        {
+          path: '/tags',
+          name: '标签'
+        },
+        {
+          path: '/admin/posts',
+          name: '新随笔'
+        }
+      ],
+      adminNavs: [
+        {
+          path: '/admin/settings',
+          name: '设置'
+        },
+        {
+          path: '/admin/comments',
+          name: '评论'
+        },
+        {
+          path: '/admin/tags',
+          name: '标签'
+        },
+        {
+          path: '/admin/drafts',
+          name: '草稿'
+        },
+        {
+          path: '/admin/posts',
+          name: '随笔'
+        }
+      ]
+    }
+  },
+  computed: {
+    currentNavs() {
+      return /^admin/.test(this.$route.name) ? this.adminNavs : this.navs
+    }
+  }
 }
+</script>
 
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
-  margin: 0;
+<style lang="scss">
+.head {
+  position: relative;
+  background-color: #fff;
 }
-
-.button--green {
+.head_back,
+.head_title,
+.head_nav {
   display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #3b8070;
-  color: #3b8070;
-  text-decoration: none;
-  padding: 10px 30px;
+}
+.head_back {
+  position: fixed;
+  left: 15%;
 }
 
-.button--green:hover {
-  color: #fff;
-  background-color: #3b8070;
+.head_title {
+  position: fixed;
+  left: 20%;
 }
-
-.button--grey {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #35495e;
-  color: #35495e;
-  text-decoration: none;
-  padding: 10px 30px;
-  margin-left: 15px;
-}
-
-.button--grey:hover {
-  color: #fff;
-  background-color: #35495e;
+.head_nav {
+  float: right;
+  .menu {
+    display: inline-block;
+  }
 }
 </style>
