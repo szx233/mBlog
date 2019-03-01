@@ -1,5 +1,5 @@
 <template>
-  <a-row justify='center' type='flex'>
+  <a-row justify="center" type="flex">
     <a-col>
       <a-form
         id="components-form-demo-normal-login"
@@ -7,10 +7,10 @@
         class="login-form"
         @submit="handleSubmit"
       >
-        <a-form-item >
+        <a-form-item>
           <a-input
             v-decorator="[
-          'userName',
+          'username',
           { rules: [{ required: true, message: 'Please input your username!' }] }
         ]"
             placeholder="Username"
@@ -18,7 +18,7 @@
             <a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25)"/>
           </a-input>
         </a-form-item>
-        <a-form-item >
+        <a-form-item>
           <a-input
             v-decorator="[
           'password',
@@ -54,13 +54,24 @@ export default {
   beforeCreate() {
     this.form = this.$form.createForm(this)
   },
+  data() {
+    return {
+      user: {}
+    }
+  },
   methods: {
     handleSubmit(e) {
       e.preventDefault()
       this.form.validateFields((err, values) => {
         if (!err) {
-          console.log('Received values of form: ', values)
-          this.$router.push({name:'admin-posts-id'})
+          console.log(values)
+          this.$store.dispatch('LOGIN', values).then(data => {
+            if (data.success) {
+              this.$router.push('/admin/posts')
+            } else {
+              this.$message.info({ text: '用户名或密码不正确' })
+            }
+          })
         }
       })
     }

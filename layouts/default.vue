@@ -4,7 +4,9 @@
       <div class="head_back" v-if="$route.params.id">
         <a-icon type="left"/>
       </div>
-      <h1 class="head_title">SZX的博客</h1>
+      <nuxt-link to="/">
+        <h1 class="head_title">SZX的博客</h1>
+      </nuxt-link>
       <nav class="head_nav">
         <a-input-search style="width: 200px"></a-input-search>
         <a-menu mode="horizontal" class="menu">
