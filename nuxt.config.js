@@ -36,6 +36,7 @@ module.exports = {
   */
   plugins: [
     '@/plugins/antd-ui',
+    '~/plugins/components.js',
     {src:'@/plugins/mavon-editor',ssr:false}
   ],
 

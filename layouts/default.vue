@@ -88,7 +88,7 @@ export default {
 }
 
 .head_title {
-  position: fixed;
+  position: relative;
   left: 20%;
 }
 .head_nav {
