@@ -48,17 +48,32 @@
 <script>
 import { mapState } from 'vuex'
 
-const options = [{label:'置顶',value:0},{label:'首页显示',value:1},{label:'标签页显示',value:2},{label:'草稿',value:3}]
+const options = [
+  { label: '置顶', value: 0 },
+  { label: '首页显示', value: 1 },
+  { label: '标签页显示', value: 2 },
+  { label: '草稿', value: 3 }
+]
 export default {
   middleware: 'auth',
   data() {
     return {
       checked: '',
-      form: this.$form.createForm(this, {
-        onValuesChange(_, values) {
-          console.log(values)
-        }
-      }),
+      // form: this.$form.createForm(this, {
+      //   onFieldsChange: (_, changedFields) => {
+      //     this.$emit('change', changedFields)
+      //   },
+      //   mapPropsToFields: () => {
+      //     return {
+      //       title: this.$form.createFormField({
+      //         value: this.article.title
+      //       })
+      //     }
+      //   },
+      //   onValuesChange(_, values) {
+      //     console.log(values)
+      //   }
+      // }),
       options,
       upload: {
         url: this.$store.getters.baseUrl + '/upload-img',
@@ -133,11 +148,12 @@ export default {
     publish() {
       this.form.validateFields((err, values) => {
         if (!err) {
-          this.article.title=values.title
+          this.article.title = values.title
           let tagsID = []
           this.article.tags.forEach(item => {
             tagsID.push(item.id)
           })
+          console.log(values)
           let article = Object.assign({}, this.article, { tags: tagsID })
           if (this.article.id) {
             this.$store.dispatch('UPDATE_ARTICLE', article).then(data => {
@@ -173,8 +189,34 @@ export default {
     if (this.$route.params.id) {
       let id = this.$route.params.id
       this.$store.dispatch('ARTICLE_DETAIL', id).then(data => {
-        this.article = data.data
+        this.article = JSON.parse(JSON.stringify(data.data))
+        // this.form.setFieldsValue({
+        //   title: this.article.title
+        // })
       })
+    }
+  },
+  created() {
+    this.form = this.$form.createForm(this, {
+      onFieldsChange: (_, changedFields) => {
+        this.$emit('change', changedFields)
+      },
+      mapPropsToFields: () => {
+        return {
+          title: this.$form.createFormField({
+            value: this.article.title
+          })
+        }
+      },
+      onValuesChange(_, values) {
+        console.log(values)
+      }
+    })
+  },
+  watch: {
+    article(val) {
+      console.log('this.$store.state.title: ', val)
+      this.form.setFieldsValue({ title: val.title })
     }
   }
 }

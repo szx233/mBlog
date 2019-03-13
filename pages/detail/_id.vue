@@ -1,29 +1,43 @@
 <template>
   <div class="detail">
-    <h1 class="detail-title">{{ articleDetail.title }}</h1>
+    <h1 class="detail-title">title:{{ articleDetail.title }}</h1>
     <div class="detail-content">
-      <wmui-preview :content="articleDetail.content" />
+      <vue-markdown :source="articleDetail.content"></vue-markdown>
     </div>
     <p class="detail-tags">
-      <nuxt-link v-for="(tag, index) in articleDetail.tags" :key="index" :to="'/tags/' + tag.id"># {{ tag.name }}</nuxt-link>
+      <a-tag color="#108ee9" v-for="(tag, index) in articleDetail.tags" :key="index">
+        <nuxt-link :to="'/tags/' + tag.id"># {{ tag.name }}</nuxt-link>
+      </a-tag>
     </p>
     <div class="detail-admin">
       <p>发布于 {{ articleDetail.created_at | formatDate('yyyy-MM-dd') }}</p>
-      <p> 更新于 {{ articleDetail.updated_at | formatDate('yyyy-MM-dd') }}</p>
-      <p> 浏览{{ articleDetail.views }}次</p>
-      <p class="admin-del" v-if="adminToken"><a @click="del(articleDetail.id)">删除</a></p>
-      <p class="admin-edit" v-if="adminToken"><a @click="edit(articleDetail.id)">编辑</a></p>
+      <p>更新于 {{ articleDetail.updated_at | formatDate('yyyy-MM-dd') }}</p>
+      <p>浏览{{ articleDetail.views }}次</p>
+      <p class="admin-del" v-if="adminToken">
+        <a-popconfirm
+          title="确定要删除该文章吗？"
+          okText="yes"
+          cancelText="no"
+          arrowPointAtCenter
+          @confirm="del(articleDetail.id)"
+        >
+          <a>删除</a>
+        </a-popconfirm>
+      </p>
+      <p class="admin-edit" v-if="adminToken">
+        <a @click="edit(articleDetail.id)">编辑</a>
+      </p>
     </div>
     <div v-if="app.isGithubConfig">
-      <blog-comment 
-      :comment-list="articleDetail.comments" 
-      :article-id="articleDetail.id" />
+      <!-- <blog-comment :comment-list="articleDetail.comments" :article-id="articleDetail.id"/> -->
     </div>
   </div>
 </template>
 <script>
 import { mapState } from 'vuex'
-// import { cutString } from '~/plugins/filters'
+import { cutString } from '~/plugins/filters'
+import VueMarkdown from 'vue-markdown'
+
 export default {
   fetch({ store, route }) {
     let id = route.params.id || ''
@@ -32,42 +46,40 @@ export default {
   head() {
     return {
       title: `${this.articleDetail.title} - ${this.user.nickname}`,
-      meta: [
-        { description: cutString(this.articleDetail.content, 300) }
-      ]
+      meta: [{ description: cutString(this.articleDetail.content, 300) }]
     }
   },
   computed: {
-    ...mapState([
-      'user',
-      'adminToken',
-      'articleDetail',
-      'app',
-    ]),
+    ...mapState(['user', 'adminToken', 'articleDetail', 'app'])
   },
   methods: {
     del(id) {
-      let _self = this
-      this.$Modal.confirm({
-        title: '确定要删除该文章吗？',
-        text: '删除后不可恢复',
-        onConfirm(instance) {
-          _self.$store.dispatch('DELETE_ARTICLE', id).then(data => {
-            if (data.success) {
-              _self.$router.go(-1)
-            }
-          })
-          instance.open = false
-        },
-        onCancel(instance) {
-          instance.open = false
+      this.$store.dispatch('DELETE_ARTICLE', id).then(data => {
+        if (data.success) {
+          console.log(data)
+          this.$message.success('删除成功！')
+          this.$router.go(-1)
         }
       })
     },
     edit(id) {
       this.$router.push(`/admin/posts/${id}`)
     }
+  },
+  components: {
+    VueMarkdown
   }
 }
-
 </script>
+
+<style lang="scss" scoped>
+.detail {
+  .detail-admin {
+    display: flex;
+    p {
+      margin-right: 1rem;
+    }
+  }
+}
+</style>
+

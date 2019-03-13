@@ -2,11 +2,16 @@
   <div>
     <div class="list-null" v-if="articles.length === 0">空空如也</div>
     <a-list v-else itemLayout="horizontal" :dataSource="articles">
-      <a-list-item slot="renderItem" slot-scope="item">
-        <a-card :title="item.title" hoverable :style="{width:'100%'}">
-          <p>{{item.content|filter}}</p>
-        </a-card>
-      </a-list-item>
+      <template #renderItem="item">
+        <a-list-item >
+          <nuxt-link :to="'/detail/' + item.id">
+            <a-card :title="item.title" hoverable :style="{width:'100%'}">
+              <p>{{item.content|cutString(180)}}</p>
+              <span>{{ item}}</span>
+            </a-card>
+          </nuxt-link>
+        </a-list-item>
+      </template>
     </a-list>
   </div>
 </template>
@@ -19,14 +24,6 @@ export default {
     articles: {
       type: Array,
       default: () => []
-    }
-  },
-  filters: {
-    filter(str) {
-      if (!str) {
-        return
-      }
-      return str.slice(0,100)+'...'
     }
   }
 }
