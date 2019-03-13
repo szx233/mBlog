@@ -2,7 +2,7 @@
   <div class="detail">
     <h1 class="detail-title">title:{{ articleDetail.title }}</h1>
     <div class="detail-content">
-      <vue-markdown :source="articleDetail.content"></vue-markdown>
+      <mavon-editor :value='articleDetail.content' :toolbarsFlag=false :editable=false defaultOpen='preview' :subfield=false></mavon-editor>
     </div>
     <p class="detail-tags">
       <a-tag color="#108ee9" v-for="(tag, index) in articleDetail.tags" :key="index">
@@ -20,6 +20,7 @@
           cancelText="no"
           arrowPointAtCenter
           @confirm="del(articleDetail.id)"
+          :overlayStyle="{zIndex:1500}"
         >
           <a>删除</a>
         </a-popconfirm>
@@ -36,7 +37,6 @@
 <script>
 import { mapState } from 'vuex'
 import { cutString } from '~/plugins/filters'
-import VueMarkdown from 'vue-markdown'
 
 export default {
   fetch({ store, route }) {
@@ -65,15 +65,16 @@ export default {
     edit(id) {
       this.$router.push(`/admin/posts/${id}`)
     }
-  },
-  components: {
-    VueMarkdown
   }
 }
 </script>
 
 <style lang="scss" scoped>
 .detail {
+  .detail-content{
+    position: relative;
+    overflow: auto;
+  }
   .detail-admin {
     display: flex;
     p {

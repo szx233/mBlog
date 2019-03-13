@@ -3,14 +3,14 @@
     <div class="list-null" v-if="articles.length === 0">空空如也</div>
     <a-list v-else itemLayout="horizontal" :dataSource="articles">
       <template #renderItem="item">
-        <a-list-item >
-          <nuxt-link :to="'/detail/' + item.id">
+        <nuxt-link :to="'/detail/' + item.id">
+          <a-list-item>
             <a-card :title="item.title" hoverable :style="{width:'100%'}">
               <p>{{item.content|cutString(180)}}</p>
-              <span>{{ item}}</span>
+              <!-- <span>{{ item}}</span> -->
             </a-card>
-          </nuxt-link>
-        </a-list-item>
+          </a-list-item>
+        </nuxt-link>
       </template>
     </a-list>
   </div>
