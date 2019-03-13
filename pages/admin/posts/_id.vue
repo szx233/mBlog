@@ -190,9 +190,6 @@ export default {
       let id = this.$route.params.id
       this.$store.dispatch('ARTICLE_DETAIL', id).then(data => {
         this.article = JSON.parse(JSON.stringify(data.data))
-        // this.form.setFieldsValue({
-        //   title: this.article.title
-        // })
       })
     }
   },
