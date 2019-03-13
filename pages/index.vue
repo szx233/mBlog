@@ -2,7 +2,7 @@
   <section class="container">
     <div>
       <blog-list :articles="allArticles"/>
-      <a-pagination v-model="currentPage" :total="total" />
+      <a-pagination v-model="currentPage" :total="total" @change="pageChange" />
     </div>
   </section>
 </template>
@@ -16,7 +16,7 @@ export default {
   },
   data() {
     return {
-      currentPage: Number(this.$route.params.id) || 1
+      currentPage: Number(this.$route.query.page) || 1
     }
   },
   head() {
@@ -31,11 +31,12 @@ export default {
     }
   },
   methods: {
-    pageClick(i) {
+    pageChange(page,pageSize){
+      // console.log(page)
       this.$router.push({
-        name: 'page-id',
+        name:'page-id',
         params: {
-          id: i
+          id: page
         }
       })
     }

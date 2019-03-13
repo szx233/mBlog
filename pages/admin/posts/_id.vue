@@ -50,7 +50,7 @@ import { mapState } from 'vuex'
 
 const options = [{label:'置顶',value:0},{label:'首页显示',value:1},{label:'标签页显示',value:2},{label:'草稿',value:3}]
 export default {
-  // middleware: 'auth',
+  middleware: 'auth',
   data() {
     return {
       checked: '',
