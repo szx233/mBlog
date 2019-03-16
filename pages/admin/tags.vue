@@ -75,22 +75,19 @@ export default {
     },
     delTag(tag) {
       let _self = this
-      this.$Modal.confirm({
+      this.$confirm({
         title: '确定删除该标签吗？',
         text: '仅删除标签，不会影响到标签下的文章',
-        onConfirm(instance) {
-          _self.$store.dispatch('DELETE_TAG', tag.id).then(data => {
+        onOk:()=> {
+          console.log(this)
+          this.$store.dispatch('DELETE_TAG', tag.id).then(data => {
             if (data.success) {
-              _self.$Toast({ text: '标签已删除' })
-              _self.$store.dispatch('TAGS').then(data => {
-                _self.tags = data.data
+              this.$message.success({ text: '标签已删除' })
+              this.$store.dispatch('TAGS').then(data => {
+                this.tags = data.data
               })
             }
           })
-          instance.open = false
-        },
-        onCancel(instance) {
-          instance.open = false
         }
       })
     },
