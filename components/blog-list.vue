@@ -1,7 +1,6 @@
 <template>
   <div>
-    <!-- <div class="list-null" v-if="articles.length === 0">空空如也</div> -->
-    <a-list itemLayout="vertical" :dataSource="articles" size="large" :locale="{emptyText:'空空如也～'}">
+    <a-list itemLayout="vertical" :dataSource="articles" size="large" :locale="{emptyText:'空空如也～'}" :pagination=pagination>
       <template #renderItem="item">
         <nuxt-link :to="'/detail/' + item.id">
           <a-list-item>
