@@ -1,11 +1,11 @@
 <template>
   <div class="admin-draft">
     <blog-list :articles="drafts" />
-    <wmui-pagination 
+    <!-- <wmui-pagination 
     :limit="limit" 
     :total="total" 
     :currentPage="currentPage"
-    @pageClick="pageClick"/>
+    @pageClick="pageClick"/> -->
   </div>
 </template>
 <script>

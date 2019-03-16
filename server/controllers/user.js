@@ -130,7 +130,7 @@ exports.patchAdminPassword = async (req, res, next) => {
         updated_at: Date.now()
       }
     ).exec()
-    res.clearCookie('adminToken')
+    // res.clearCookie('adminToken')
     res.json({
       success: true,
       data: 'password update succeeded'

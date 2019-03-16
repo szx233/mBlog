@@ -19,7 +19,7 @@ router
   .patch('/password',
     check.bodyParams(['oldPassword', 'newPassword']),
     auth('adminToken'),
-    user.patchAdminPassword,
+    user.patchAdminPassword
   )
   .post('/login',
     check.bodyParams(['username', 'password']),

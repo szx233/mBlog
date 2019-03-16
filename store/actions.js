@@ -142,7 +142,7 @@ export default {
     return data
   },
 
-  async LOGOUT({ state }) {
+  async LOGOUT({commit, state }) {
     const { data } = await axios.post(`${state.app.baseUrl}/logout`)
     commit('CLEAR_ADMIN_TOKEN')
     return data

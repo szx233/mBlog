@@ -10,7 +10,7 @@
       <nav class="head_nav">
         <a-input-search style="width: 200px"></a-input-search>
         <a-menu mode="horizontal" class="menu">
-          <a-menu-item v-for="(item,index) in currentNavs" :key="index">
+          <a-menu-item v-for="item in currentNavs" :key="item.name">
             <nuxt-link :to="item.path">{{item.name}}</nuxt-link>
           </a-menu-item>
         </a-menu>
@@ -18,7 +18,11 @@
     </a-layout-header>
     <a-layout-content :style="{ margin: '24px 16px 0'}">
       <div :style="{ padding: '24px', background: '#fff', minHeight: '360px' }">
-        <nuxt></nuxt>
+        <a-row type='flex' justify='center'>
+          <a-col :span=12>
+            <nuxt></nuxt>
+          </a-col>
+        </a-row>
       </div>
     </a-layout-content>
     <a-layout-footer style="textAlign: center">BLOG ©2018 Created by SZX</a-layout-footer>

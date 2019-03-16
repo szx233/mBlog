@@ -13,7 +13,7 @@
       <a-radio-group name="radioGroup" :defaultValue="3" :options="options" v-model="article.flag"></a-radio-group>
     </a-form-item>
     <a-form-item>
-      <mavon-editor v-model="article.content" :style="{height:'500px'}"></mavon-editor>
+      <mavon-editor v-model="article.content" :style="{height:'500px',zIndex:999}"></mavon-editor>
     </a-form-item>
     <a-row type="flex">
       <a-col v-for="(item, index) in article.tags" :key="item.id">
@@ -59,21 +59,6 @@ export default {
   data() {
     return {
       checked: '',
-      // form: this.$form.createForm(this, {
-      //   onFieldsChange: (_, changedFields) => {
-      //     this.$emit('change', changedFields)
-      //   },
-      //   mapPropsToFields: () => {
-      //     return {
-      //       title: this.$form.createFormField({
-      //         value: this.article.title
-      //       })
-      //     }
-      //   },
-      //   onValuesChange(_, values) {
-      //     console.log(values)
-      //   }
-      // }),
       options,
       upload: {
         url: this.$store.getters.baseUrl + '/upload-img',
