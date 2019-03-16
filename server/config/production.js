@@ -28,7 +28,7 @@ module.exports = {
     pass: ''
   },
   app: {
-    domain: 'https://fml233.xyz',
+    domain: 'http://localhost:3000',
     baseApi: '/v1'
   }
 }

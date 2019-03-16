@@ -1,0 +1,33 @@
+version: '3.7'
+
+services:
+  web:
+    build: .
+    ports:
+      - 3000:3000
+    depends_on:
+      - mongo
+    networks:
+      - mynet
+    environment:
+      IS_DOCKER: 'true'
+
+  mongo:
+    image: mongo
+    restart: always
+    volumes:
+      - /home/mydb:/data/db
+    networks:
+      - mynet
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    networks:
+      - mynet
+networks:
+  mynet:
+volumes:
+  mydb:
