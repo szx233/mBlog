@@ -3,7 +3,7 @@
     <template v-if="comments.length === 0">
       <div class="comment-null">空空如也</div>
     </template>
-    <template v-else>
+    <!-- <template v-else>
       <wmui-dialog v-model="isShow">
         <h4>评论详情</h4>
         <p>{{ comment.content }}</p>
@@ -16,7 +16,7 @@
           <p class="item-del"><a @click="delBtn(comment)">删除</a></p>
         </li>
       </ul>
-    </template>
+    </template> -->
   </div>
 </template>
 <script>

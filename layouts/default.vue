@@ -86,10 +86,6 @@ export default {
 .head_nav {
   display: inline-block;
 }
-.head_back {
-  position: fixed;
-  left: 15%;
-}
 
 .head_title {
   position: relative;
